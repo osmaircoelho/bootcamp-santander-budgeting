@@ -5,7 +5,10 @@ import dio.budgeting.application.PersistTransactionUseCase;
 import dio.budgeting.domain.Category;
 import dio.budgeting.infrastructure.http.request.TransactionRequest;
 import dio.budgeting.infrastructure.http.response.TransactionResponse;
+import org.springframework.ai.audio.transcription.TranscriptionModel;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,13 +17,16 @@ import java.util.List;
 public class TransactionController {
     private final PersistTransactionUseCase persistTransactionUseCase;
     private final ListTransactionByCategoryUseCase listTransactionByCategoryUseCase;
+    private final TranscriptionModel transcriptionModel;
 
     public TransactionController(
             PersistTransactionUseCase persistTransactionUseCase,
-            ListTransactionByCategoryUseCase listTransactionByCategoryUseCase
+            ListTransactionByCategoryUseCase listTransactionByCategoryUseCase,
+            TranscriptionModel transcriptionModel
     ) {
         this.persistTransactionUseCase = persistTransactionUseCase;
         this.listTransactionByCategoryUseCase = listTransactionByCategoryUseCase;
+        this.transcriptionModel = transcriptionModel;
     }
 
     @PostMapping
@@ -35,4 +41,12 @@ public class TransactionController {
         return listTransactionByCategoryUseCase.execute(category)
                 .stream().map(TransactionResponse::from).toList();
     }
+
+    @PostMapping(value = "/ai", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    String transcribe(@RequestParam("file") MultipartFile file) {
+        var resource = file.getResource();
+        return transcriptionModel.transcribe(resource);
+    }
+
+
 }
