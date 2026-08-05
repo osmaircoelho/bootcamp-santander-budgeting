@@ -1,6 +1,6 @@
 services:
   database:
-    image: mysql:8.0
+    image: mysql:9.6
     environment:
       MYSQL_DATABASE: transaction
       MYSQL_ROOT_PASSWORD: root
