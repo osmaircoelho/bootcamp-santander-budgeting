@@ -1,4 +1,10 @@
+
+
+
 # Budgeting - Assistente Financeiro com Spring AI
+
+<img width="1536" height="1024" alt="ChatGPT Image Aug 17, 2026, 03_53_33 PM" src="https://github.com/user-attachments/assets/4a07f4a8-0c12-41da-a7b9-b78188a036f2" />
+
 
 ## Sobre o projeto
 
