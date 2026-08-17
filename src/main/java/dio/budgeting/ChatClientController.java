@@ -1,7 +1,6 @@
 package dio.budgeting;
 
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.openai.OpenAiChatModel;
+import dio.budgeting.application.BudgetingAssistantService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,18 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class ChatClientController {
-    private final ChatClient chatClient;
+    private final BudgetingAssistantService budgetingAssistantService;
 
-    public ChatClientController(ChatClient chatClient) {
-        this.chatClient = chatClient;
+    public ChatClientController(BudgetingAssistantService budgetingAssistantService) {
+        this.budgetingAssistantService = budgetingAssistantService;
     }
 
     @GetMapping("/chat")
     String chat(String prompt) {
-        return this.chatClient
-                .prompt()
-                .user(prompt)
-                .call()
-                .content();
+        return budgetingAssistantService.chat(prompt);
     }
 }
